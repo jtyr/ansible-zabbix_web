@@ -1,0 +1,38 @@
+---
+
+- name: Add Zabbix YUM repo
+  yumrepo:
+    name: zabbix
+    description: Official Zabbix {{ zabbix_major_version }} YUM repo
+    baseurl: "{{ zabbix_yumrepo_url }}"
+    gpgcheck: no
+  tags:
+    - zabbix_web_pkg
+
+- name: Intall Zabbix web
+  yum:
+    name: "{{ zabbix_web_pkg }}"
+    state: present
+  notify:
+    - Restart web server daemon
+  tags:
+    - zabbix_web_pkg
+
+- name: Configure Zabbix web
+  template:
+    src: zabbix.conf.php.j2
+    dest: /etc/zabbix/web/zabbix.conf.php
+  notify:
+    - Restart web server daemon
+  tags:
+    - zabbix_web_config
+
+- name: Configure Zabbix maintenance mode
+  template:
+    src: maintenance.inc.php.j2
+    dest: /etc/zabbix/web/maintenance.int.php
+  when: zabbix_web_maintenance_mode
+  notify:
+    - Restart web server daemon
+  tags:
+    - zabbix_web_config
