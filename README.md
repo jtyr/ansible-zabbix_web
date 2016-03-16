@@ -92,8 +92,6 @@ zabbix_web_server_daemon: none
 Dependencies
 ------------
 
-- [`yumrepo`](https://raw.githubusercontent.com/jtyr/ansible-modules-extras/jtyr-yumrepo_params/packaging/os/yumrepo.py)
-  module (put it into the `library` directory)
 - [Config Encoders](https://github.com/jtyr/ansible/blob/jtyr-config_encoders/lib/ansible/plugins/filter/config_encoders.py)
 
 
