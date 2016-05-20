@@ -4,7 +4,7 @@
 zabbix_major_version: 2.4
 
 # Zabbix YUM repo URL
-zabbix_yumrepo_url: http://repo.zabbix.com/zabbix/{{ zabbix_major_version }}/rhel/{{ ansible_distribution_major_version }}/{{ ansible_userspace_architecture }}/
+zabbix_yumrepo_url: http://repo.zabbix.com/zabbix/{{ zabbix_major_version }}/rhel/{{ ansible_distribution_major_version }}/$basearch/
 
 # DB engine
 zabbix_web_db_engine: "{{ zabbix_server_db_engine | default('pgsql') }}"
@@ -13,13 +13,18 @@ zabbix_web_db_engine: "{{ zabbix_server_db_engine | default('pgsql') }}"
 zabbix_web_pkg: zabbix-web-{{ zabbix_web_db_engine  }}
 
 # DB type
-zabbix_web_db_type: "{{ 'POSTGRESQL' if zabbix_web_db_engine == 'pgsql' else 'MYSQL' }}"
+zabbix_web_db_type: "{{
+  'POSTGRESQL'
+    if zabbix_web_db_engine == 'pgsql'
+    else
+  'MYSQL' }}"
 
 # DB server host
 zabbix_web_db_host: "{{ zabbix_server_db_host | default('localhost') }}"
 
 # DB server port
-zabbix_web_db_port: "{{ zabbix_server_db_port | default('0') }}"
+zabbix_web_db_port: "{{ zabbix_server_db_port | default(
+  5432 if zabbix_web_db_engine == 'pgsql' else 3306) }}"
 
 # DB name
 zabbix_web_db_name: "{{ zabbix_server_db_name | default('zabbix') }}"
