@@ -17,11 +17,71 @@ Usage
 -----
 
 ```
-# Default usage with no configuration changes
-- name: Example 1
+- name: Recommended installation of the Zabbix Web
   hosts: machine1
+  vars:
+    php_extensions_config:
+      zabbix:
+        PHP:
+          post_max_size: 16M
+          max_execution_time: 300
+          max_input_time: 300
+        date:
+          date.timezone: UTC
+    nginx_vhost_config__default:
+      default:
+        - server:
+          - listen 80 default_server
+          - server_name localhost.localdomain
+          - root /usr/share/zabbix
+          - index index.html index.php
+          - "location ~ \\.php":
+            - try_files $uri =404
+            - fastcgi_split_path_info ^(.+\.php)(/.+)$
+            - fastcgi_pass unix:/var/run/php-fpm/php-zabbix.socket
+            - fastcgi_index index.php
+            - fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name
+            - fastcgi_read_timeout 600
+            - include fastcgi_params
+    php_fpm_pool_config:
+      zabbix:
+        zabbix:
+          listen: /var/run/php-fpm/php-zabbix.socket
+          listen.owner: root
+          listen.group: apache
+          listen.mode: 0660
+          user: nginx
+          group: nginx
+          pm: dynamic
+          pm.max_children: 50
+          pm.start_servers: 5
+          pm.min_spare_servers: 5
+          pm.max_spare_servers: 35
+          slowlog: /var/log/php-fpm/zabbix-slow.log
+          catch_workers_output: yes
+          security.limit_extensions: .php .php3 .php4 .php5
+          php_admin_value[error_log]: /var/log/php-fpm/zabbix-error.log
+          php_admin_flag[log_errors]: on
+          php_value[session.save_handler]: files
+          php_value[session.save_path]:  /var/lib/php/session/
   roles:
+    - nginx
+    - php
+    - php_fpm
     - zabbix_web
+  tasks:
+    - name: Add nginx user into the apache group
+      user:
+        name: nginx
+        groups: apache
+      register: nginx_add_apache_group
+    - name: Restart PHP-FPM if group added
+      service:
+        name: php-fpm
+        state: restarted
+      when: >
+        nginx_add_apache_group is defined and
+        nginx_add_apache_group.changed
 ```
 
 This role requires [Config
@@ -106,6 +166,9 @@ Dependencies
 ------------
 
 - [Config Encoders](https://github.com/jtyr/ansible/blob/jtyr-config_encoders/lib/ansible/plugins/filter/config_encoders.py)
+- [nginx](https://github.com/jtyr/ansible-nginx) role (optional)
+- [php](https://github.com/jtyr/ansible-php) role (optional)
+- [php-fpm](https://github.com/jtyr/ansible-php_fpm) role (optional)
 
 
 License
