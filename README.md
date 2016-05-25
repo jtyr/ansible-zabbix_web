@@ -84,17 +84,6 @@ Usage
         nginx_add_apache_group.changed
 ```
 
-This role requires [Config
-Encoders](https://github.com/jtyr/ansible/blob/jtyr-config_encoders/lib/ansible/plugins/filter/config_encoders.py).
-Download the file and put it into the `filter_plugins` directory in the root of
-your playbook:
-
-```
-$ mkdir ./filter_plugins
-$ cd ./filter_plugins
-$ curl -O https://github.com/jtyr/ansible/blob/jtyr-config_encoders/lib/ansible/plugins/filter/config_encoders.py
-```
-
 
 Role variables
 --------------
@@ -165,10 +154,12 @@ zabbix_web_server_daemon: null
 Dependencies
 ------------
 
-- [Config Encoders](https://github.com/jtyr/ansible/blob/jtyr-config_encoders/lib/ansible/plugins/filter/config_encoders.py)
-- [nginx](https://github.com/jtyr/ansible-nginx) role (optional)
-- [php](https://github.com/jtyr/ansible-php) role (optional)
-- [php-fpm](https://github.com/jtyr/ansible-php_fpm) role (optional)
+- [`config_encoder_filters`](https://github.com/jtyr/ansible-config_encoder_filters)
+- [`nginx`](https://github.com/jtyr/ansible-nginx) (optional)
+- [`php-fpm`](https://github.com/jtyr/ansible-php_fpm) (optional)
+- [`php`](https://github.com/jtyr/ansible-php) (optional)
+- [`zabbix-agent`](https://github.com/jtyr/ansible-zabbix_agent) (optional)
+- [`zabbix-server`](https://github.com/jtyr/ansible-zabbix_server) (optional)
 
 
 License
