@@ -6,6 +6,9 @@ zabbix_major_version: 2.4
 # Zabbix YUM repo URL
 zabbix_yumrepo_url: http://repo.zabbix.com/zabbix/{{ zabbix_major_version }}/rhel/{{ ansible_distribution_major_version }}/$basearch/
 
+# Additional Zabbix YUM repo params
+zabbix_yumrepo_params: {}
+
 # DB engine
 zabbix_web_db_engine: "{{ zabbix_server_db_engine | default('pgsql') }}"
 
