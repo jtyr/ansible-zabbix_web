@@ -161,8 +161,8 @@ Dependencies
 - [`nginx`](https://github.com/jtyr/ansible-nginx) (optional)
 - [`php-fpm`](https://github.com/jtyr/ansible-php_fpm) (optional)
 - [`php`](https://github.com/jtyr/ansible-php) (optional)
-- [`zabbix-agent`](https://github.com/jtyr/ansible-zabbix_agent) (optional)
-- [`zabbix-server`](https://github.com/jtyr/ansible-zabbix_server) (optional)
+- [`zabbix_agent`](https://github.com/jtyr/ansible-zabbix_agent) (optional)
+- [`zabbix_server`](https://github.com/jtyr/ansible-zabbix_server) (optional)
 
 
 License
