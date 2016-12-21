@@ -24,6 +24,18 @@
   tags:
     - zabbix_web_pkg
 
+- name: Change permissions on the session directory
+  file:
+    path: "{{ zabbix_web_php_session_dir }}"
+    group: apache
+    mode: 0775
+  when: >
+    zabbix_web_php_session_dir is not none and
+    zabbix_major_version | int >= 3 and
+    ansible_distribution_major_version | int < 7
+  tags:
+    - zabbix_web_pkg
+
 - name: Configure Zabbix web
   template:
     src: zabbix.conf.php.j2
@@ -42,3 +54,15 @@
     - Restart web server daemon
   tags:
     - zabbix_web_config
+
+- name: Add the web server user into an extra group
+  user:
+    name: "{{ zabbix_web_server_user }}"
+    groups: "{{ zabbix_web_server_group }}"
+  when: >
+    zabbix_web_server_user is not none and
+    zabbix_web_server_group is not none
+  notify:
+    - Restart web server daemon
+  tags:
+    - zabbix_web_user

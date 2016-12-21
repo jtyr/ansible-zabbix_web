@@ -4,4 +4,4 @@
   service:
     name: "{{ zabbix_web_server_daemon }}"
     state: restarted
-  when: zabbix_web_server_daemon
+  when: zabbix_web_server_daemon is not none

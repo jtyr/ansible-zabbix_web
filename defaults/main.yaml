@@ -9,6 +9,9 @@ zabbix_yumrepo_url: http://repo.zabbix.com/zabbix/{{ zabbix_major_version }}/rhe
 # Additional Zabbix YUM repo params
 zabbix_yumrepo_params: {}
 
+# Session directory for PHP 5.4
+zabbix_web_php_session_dir: /opt/rh/php54/root/usr/share/xsessions
+
 # DB engine
 zabbix_web_db_engine: "{{ zabbix_server_db_engine | default('pgsql') }}"
 
@@ -62,3 +65,9 @@ zabbix_web_maintenance_message: Zabbix is under maintenance.
 
 # Web server daemon (e.g. apache, httpd, nginx)
 zabbix_web_server_daemon: null
+
+# Web server user (e.g. nginx)
+zabbix_web_server_user: null
+
+# Web server user (e.g. apache)
+zabbix_web_server_group: null
