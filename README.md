@@ -17,7 +17,7 @@ Usage
 -----
 
 ```
-- name: Installation of Zabbix Web 2.4 on RHEL/CentOS 6 or 3.x on RHEL/CentOS 7
+- name: Installation of Zabbix Web 2.4 on RHEL/CentOS 6 or 2.4/3.x on RHEL/CentOS 7
   hosts: machine1
   vars:
     # Nginx configuration
