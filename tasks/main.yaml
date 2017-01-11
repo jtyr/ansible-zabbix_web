@@ -16,9 +16,8 @@
     - zabbix_web_pkg
 
 - name: Intall Zabbix web
-  yum:
+  package:
     name: "{{ zabbix_web_pkg }}"
-    state: present
   notify:
     - Restart web server daemon
   tags:
