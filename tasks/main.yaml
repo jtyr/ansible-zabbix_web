@@ -39,6 +39,8 @@
   template:
     src: zabbix.conf.php.j2
     dest: /etc/zabbix/web/zabbix.conf.php
+    group: apache
+    mode: 0640
   notify:
     - Restart web server daemon
   tags:
