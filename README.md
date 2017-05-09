@@ -162,7 +162,11 @@ Usage
 
     # For Zabbix 3.2
     #zabbix_major_version: 3.2
-    #zabbix_yumrepo_url: http://repo.zabbix.com/zabbix/{{ zabbix_major_version }}/rhel/$releasever/$basearch/deprecated/
+    #zabbix_web_yumrepo_params:
+    #  name: zabbix-web
+    #zabbix_web_yumrepo_url: http://repo.zabbix.com/zabbix/{{ zabbix_major_version }}/rhel/$releasever/$basearch/deprecated/
+    #zabbix_server_yumrepo_params: "{{ zabbix_web_yumrepo_params }}"
+    #zabbix_server_yumrepo_url: "{{ zabbix_web_yumrepo_url }}"
 
     # Zabbix Web configuration
     zabbix_web_server_daemon: php54-php-fpm
@@ -185,13 +189,13 @@ Role variables
 
 ```
 # Major Zabbix version (used for Zabbix YUM repo)
-zabbix_major_version: 2.4
+zabbix_web_major_version: "{{ zabbix_major_version | default(2.4) }}"
 
 # Zabbix YUM repo URL
-zabbix_yumrepo_url: http://repo.zabbix.com/zabbix/{{ zabbix_major_version }}/rhel/{{ ansible_distribution_major_version }}/$basearch/
+zabbix_web_yumrepo_url: "{{ zabbix_yumrepo_url | default('http://repo.zabbix.com/zabbix/' ~ zabbix_web_major_version ~ '/rhel/' ~ ansible_distribution_major_version ~ '/$basearch/') }}"
 
 # Additional Zabbix YUM repo params
-zabbix_yumrepo_params: {}
+zabbix_web_yumrepo_params: "{{ zabbix_yumrepo_params | default({}) }}"
 
 # Session directory for PHP 5.4
 zabbix_web_php_session_dir: /opt/rh/php54/root/usr/share/xsessions
@@ -267,6 +271,7 @@ Dependencies
 - [`php`](https://github.com/jtyr/ansible-php) (optional)
 - [`postgresql`](https://github.com/jtyr/ansible-postgresql) (optional)
 - [`zabbix_agent`](https://github.com/jtyr/ansible-zabbix_agent) (optional)
+- [`zabbix_proxy`](https://github.com/jtyr/ansible-zabbix_proxy) (optional)
 - [`zabbix_server`](https://github.com/jtyr/ansible-zabbix_server) (optional)
 
 

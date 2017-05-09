@@ -8,10 +8,10 @@
 - name: Add Zabbix YUM repo
   yum_repository:
     name: zabbix
-    description: Official Zabbix {{ zabbix_major_version }} YUM repo
-    baseurl: "{{ zabbix_yumrepo_url }}"
+    description: Official Zabbix {{ zabbix_web_major_version }} YUM repo
+    baseurl: "{{ zabbix_web_yumrepo_url }}"
     gpgcheck: no
-    params: "{{ zabbix_yumrepo_params }}"
+    params: "{{ zabbix_web_yumrepo_params }}"
   tags:
     - zabbix_web_pkg
 
@@ -30,7 +30,7 @@
     mode: 0775
   when: >
     zabbix_web_php_session_dir is not none and
-    zabbix_major_version | int >= 3 and
+    zabbix_web_major_version | int >= 3 and
     ansible_distribution_major_version | int < 7
   tags:
     - zabbix_web_pkg
