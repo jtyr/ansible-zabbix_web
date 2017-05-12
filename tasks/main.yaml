@@ -50,7 +50,7 @@
   template:
     src: maintenance.inc.php.j2
     dest: /etc/zabbix/web/maintenance.int.php
-  when: zabbix_web_maintenance_mode
+  when: zabbix_web_maintenance_mode == true
   notify:
     - Restart web server daemon
   tags:
